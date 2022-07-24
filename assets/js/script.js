@@ -10,7 +10,7 @@ var loadHistoryEl =document.getElementById("prev-search");
 
 //Search Function
 submitButtonEl.addEventListener("click", function(event) {
-    event.preventDefault()
+    event.preventDefault();
     console.log("button clicked!");
     getUserData();
     
@@ -22,6 +22,8 @@ var getUserData = function() {
   var gameSearchData = document.getElementById("gamesrch").value;
   console.log(gameSearchData);
   saveSearch();
+  //reset form fields for next task to be entered
+  document.getElementById("gamesrch").value="";
 };
 
 //api data call 
