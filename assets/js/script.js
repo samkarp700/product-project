@@ -38,19 +38,19 @@ var getApiData = function() {
 }
 
 //best buy data call 
-    var getBestBuyData = function() {
-        //format api url
-        var bestApi = "#";
+var getBestBuyData = function() {
+    //format api url
+    var bestApi = "#";
 
-        //make a request to the url
-        fetch (bestApi).then(function(response) {
-            //request successful
-            if (response.ok) {
-                response.json().then(function(data) {
-                    displayPrice(data);
-                });
-            }
-            else {
+    //make a request to the url
+    fetch (bestApi).then(function(response) {
+    //request successful
+    if (response.ok) {
+    response.json().then(function(data) {
+    displayPrice(data);
+    });
+    }
+     else {
                 // display list item element saying "not available"
             }
         })
