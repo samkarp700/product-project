@@ -3,10 +3,14 @@
 var textFormEl = document.querySelector("#input-group");
 //var rawgDataObj = //rawg api
 //var bestBuyDataObj = //best buy api
-var submitButtonEl = document.querySelector("#input-group-button");
+var submitButtonEl = document.getElementById("search");
 
 
 //Search Function
+submitButtonEl.addEventListener("click", function() {
+    console.log("button clicked!");
+});
+    
 
 var getUserData = function(event) {
     event.preventDefault();
@@ -70,4 +74,3 @@ var getApiData = function() {
 
     }
 
-submitButtonEl.addEventListener("submit", getUserData);
