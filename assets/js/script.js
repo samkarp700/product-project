@@ -4,6 +4,8 @@ var textFormEl = document.querySelector("#input-group");
 //var rawgDataObj = //rawg api
 //var bestBuyDataObj = //best buy api
 var submitButtonEl = document.querySelector("#input-group-button");
+var rawgKey = "c43811ca668944d58cb70bb7abcca226";
+var rawgObjArr = [];
 
 
 //Search Function
@@ -18,14 +20,22 @@ var getUserData = function(event) {
 
 var getApiData = function() {
     //format the api url 
-    var gameApi = "#" + "";
+    var gameApi = "https://api.rawg.io/api/games?search=super+mario+64&key=" + rawgKey;
 
     //make a request to URL
     fetch (gameApi).then(function(response) {
+        console.log("check1");
         //request successful
         if (response.ok) {
             response.json().then(function(data) {
-                displayResults(data);
+                console.log(data);
+                for(var i = 0; i < 6; i++) {
+                    console.log(data.results[i]);
+                    if(data.results[i]) {
+                        rawgObjArr[i] = data.results[i];
+                    }
+                }
+                // displayResults(data);
             }); 
         }
         else {
@@ -70,4 +80,5 @@ var getBestBuyData = function() {
 
     }
 
-submitButtonEl.addEventListener("submit", getUserData);
+getApiData();
+// submitButtonEl.addEventListener("submit", getUserData);
