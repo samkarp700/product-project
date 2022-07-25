@@ -1,17 +1,29 @@
 //variables
 
-var textFormEl = document.querySelector("#input-group");
+// var textFormEl = document.getElementById("gamesrch").value;
 //var rawgDataObj = //rawg api
 //var bestBuyDataObj = //best buy api
-var submitButtonEl = document.querySelector("#input-group-button");
+var submitButtonEl = document.getElementById("search");
+var loadHistoryEl =document.getElementById("prev-search");
+
 
 
 //Search Function
-
-var getUserData = function(event) {
+submitButtonEl.addEventListener("click", function(event) {
     event.preventDefault();
+    console.log("button clicked!");
+    getUserData();
+    
+});
+    
+
+var getUserData = function() {
     //gathers data entered into textFormEl
-    var gameSearch = textFormEl
+  var gameSearchData = document.getElementById("gamesrch").value;
+  console.log(gameSearchData);
+  saveSearch();
+  //reset form fields for next task to be entered
+  document.getElementById("gamesrch").value="";
 };
 
 //api data call 
@@ -38,7 +50,7 @@ var getApiData = function() {
 }
 
 //best buy data call 
-    var getBestBuyData = function() {
+var getBestBuyData = function() {
         //format api url
         var bestApi = "#";
 
@@ -60,14 +72,19 @@ var getApiData = function() {
     }
 
     //saves search data to local storage
-    var saveSearch = function(userData) {
+    var saveSearch = function() {
+        var gameName = document.getElementById("gamesrch").value;
+        localStorage.setItem("search", JSON.stringify(gameName)); 
 
     }
 
     var loadHistory = function() {
         //get search history from localStorage
+        var loadGame = document.getElementById("gamesrch").value;
+        window.localStorage.getItem('loadGame');
+        JSON.parse(window.localStorage.getItem(loadGame));
         //display value in container - max 3 previous searches
+        console.log(loadGame);
+    };
+   
 
-    }
-
-submitButtonEl.addEventListener("submit", getUserData);
