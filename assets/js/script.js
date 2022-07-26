@@ -85,6 +85,10 @@ var getBestBuyData = function() {
         JSON.parse(window.localStorage.getItem(loadGame));
         //display value in container - max 3 previous searches
         console.log(loadGame);
+        var prevSearchEl = document.getElementById("prev-search");
+        
+
     };
+    loadHistory();
    
 
