@@ -1,31 +1,57 @@
 //variables
 
-var textFormEl = document.querySelector("#input-group");
+// var textFormEl = document.getElementById("gamesrch").value;
 //var rawgDataObj = //rawg api
 //var bestBuyDataObj = //best buy api
 var submitButtonEl = document.querySelector("#input-group-button");
+var btnList1El = document.getElementById("btn-list-1");
+var btnList2El = document.getElementById("btn-list-2");
+var rawgKey = "c43811ca668944d58cb70bb7abcca226";
+var rawgObjArr = [];
+arrIndex = 0;
+
 
 
 //Search Function
-
-var getUserData = function(event) {
+/* submitButtonEl.addEventListener("click", function(event) {
     event.preventDefault();
+    console.log("button clicked!");
+    getUserData();
+    
+});*/
+    
+
+var getUserData = function() {
     //gathers data entered into textFormEl
-    var gameSearch = textFormEl
+  var gameSearchData = document.getElementById("gamesrch").value;
+  console.log(gameSearchData);
+  saveSearch();
+  //reset form fields for next task to be entered
+  document.getElementById("gamesrch").value="";
 };
 
 //api data call 
 
 var getApiData = function() {
     //format the api url 
-    var gameApi = "#" + "";
+    var gameApi = "https://api.rawg.io/api/games?search=super+mario+64&key=" + rawgKey;
+    arrIndex = 0;
 
     //make a request to URL
     fetch (gameApi).then(function(response) {
+        console.log("check1");
         //request successful
         if (response.ok) {
             response.json().then(function(data) {
-                displayResults(data);
+                console.log(data);
+                for(var i = 0; i < 5; i++) {
+                    console.log(data.results[i]);
+                    if(data.results[i]) {
+                        rawgObjArr[i] = data.results[i];
+                    }
+                }
+                mainGameDisplay();
+                displayOtherGames();
             }); 
         }
         else {
@@ -38,36 +64,129 @@ var getApiData = function() {
 }
 
 //best buy data call 
-    var getBestBuyData = function() {
-        //format api url
-        var bestApi = "#";
+var getBestBuyData = function() {
+    //format api url
+    var bestApi = "#";
 
-        //make a request to the url
-        fetch (bestApi).then(function(response) {
-            //request successful
-            if (response.ok) {
-                response.json().then(function(data) {
-                    displayPrice(data);
-                });
-            }
-            else {
-                // display list item element saying "not available"
-            }
-        })
-        .catch(function(error) {
-            //throw 404 page
+    //make a request to the url
+    fetch (bestApi).then(function(response) {
+    //request successful
+    if (response.ok) {
+        response.json().then(function(data) {
+            displayPrice(data);
         });
     }
+    else {
+                // display list item element saying "not available"
+        }
+    })
+    .catch(function(error) {
+        //throw 404 page
+    });
+}
 
-    //saves search data to local storage
-    var saveSearch = function(userData) {
+var mainGameDisplay = function() {
+    mainGameName();
+    mainGameGenre();
+    mainGameSystem();
+};
 
+var mainGameName = function() {
+    var gameNameContainer = document.getElementById("result-name");
+    gameNameContainer.textContent = rawgObjArr[arrIndex].name;
+};
+
+var mainGameGenre = function() {
+    var gameGenreContainer = document.getElementById("result-genre");
+    var genreStr = "";
+
+    for (var i = 0; i < rawgObjArr[arrIndex].genres.length; i++) {
+        genreStr += rawgObjArr[arrIndex].genres[i].name;
+
+        if(i != rawgObjArr[arrIndex].genres.length - 1) {
+            genreStr += "/";
+        }
     }
 
-    var loadHistory = function() {
-        //get search history from localStorage
-        //display value in container - max 3 previous searches
+    gameGenreContainer.textContent = genreStr;
+}
 
+var mainGameSystem = function() {
+    var gameSystemContainer = document.getElementById("result-sys");
+    var systemStr = "";
+
+    for (var i = 0; i < rawgObjArr[arrIndex].platforms.length; i++) {
+        systemStr += rawgObjArr[arrIndex].platforms[i].platform.name;
+
+        if(i != rawgObjArr[arrIndex].platforms.length - 1) {
+            systemStr += "/";
+        }
     }
 
-submitButtonEl.addEventListener("submit", getUserData);
+    gameSystemContainer.textContent = systemStr;
+};
+
+var displayOtherGames = function() {
+    
+
+    for (var i = 1; i < rawgObjArr.length; i++) {
+        var gameBtn = document.createElement("button");
+        gameBtn.textContent = rawgObjArr[i].name;
+        gameBtn.setAttribute("type", "button");
+        gameBtn.setAttribute("data-index", i);
+        gameBtn.className = "button";
+
+        if (i % 2 === 1) {
+            btnList1El.appendChild(gameBtn);
+        }
+        else {
+            btnList2El.appendChild(gameBtn);
+        }
+    }
+};
+
+//adds the data of the game tied to the button to the main game area and updates the button to correspond to the original game
+var switchGameData = function(event) {
+    if(event.target.classList.contains("button")) {
+        var targetBtn = event.target;
+
+        var temp = targetBtn.getAttribute("data-index");
+        targetBtn.setAttribute("data-index", arrIndex);
+        arrIndex = temp;
+
+        mainGameDisplay();
+        updateButton(targetBtn);
+    }
+};
+
+var updateButton = function(targetBtn) {
+    var index = targetBtn.getAttribute("data-index");
+    targetBtn.textContent = rawgObjArr[index].name;
+}
+
+//saves search data to local storage
+var saveSearch = function() {
+    var gameName = document.getElementById("gamesrch").value;
+    localStorage.setItem("search", JSON.stringify(gameName)); 
+
+}
+
+var loadHistory = function() {
+    //get search history from localStorage
+    var loadGame = document.getElementById("gamesrch").value;
+    window.localStorage.getItem('loadGame');
+    JSON.parse(window.localStorage.getItem(loadGame));
+    //display value in container - max 3 previous searches
+    console.log(loadGame);
+    var prevSearchEl = document.getElementById("prev-search");
+        
+
+};
+
+loadHistory();
+   
+
+getApiData();
+// submitButtonEl.addEventListener("submit", getUserData);
+btnList1El.addEventListener("click", switchGameData);
+btnList2El.addEventListener("click", switchGameData);

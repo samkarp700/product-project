@@ -54,18 +54,13 @@
 
 
       <!-- Search Bar Start -->
-      <!-- <div class="input-group input-group-rounded">
-        <input class="input-group-field" type="search">
-        <div class="input-group-button">
-          <input type="submit" class="button secondary" value="Search">
-        </div>
-      </div> -->
+
       <form>
         <div class="grid-x grid-padding-x align-center">
           <div class="large-6 cell">
             <label>Game Search</label>
-            <input type="text" placeholder="What are you playing next?" />
-            <button class="secondary button">Search</button>
+            <input type="text" id="gamesrch" name="game-search" placeholder="What are you playing next?" />
+            <button class="secondary button" id="search">Search</button>
           </div>
         </div>
       </form>
@@ -75,18 +70,18 @@
 
       <!--Results Container Start-->
         <div class="card card-margin">
-          <div class="card-divider text-white align-center">
+          <div class="card-divider text-white align-center" id="result-name">
             Video Game Name / result
           </div>
           <!--Image of game-->
           <div class="card-section">
            <p>
-            <ul class="no-bullet text-center">
-              <li>Genre</li>
-            <li>description</li>
-            <li>price</li>
-            <li>availability</li>
-            <li>URL to Best Buy</li>
+            <ul id="no-bullet text-center">
+            <li id="result-genre">Genre</li>
+            <li id="result-sys">System(s)</li>
+            <li id="result-price">price</li>
+            <li id="result-avail">availability</li>
+            <li id="result-url">URL to Best Buy</li>
             </ul>
           </p>
           </div>
@@ -98,30 +93,19 @@
         <!--Similar games Container Start-->
           <div class="card card-margin">
             <div class="card-divider text-white">
-              <p>You may also like: </p> 
+              <p>Other Results: </p> 
             </div>
             <!--Image of game-->
             <div class="grid-x grid-padding-x">
               <div class="card-section large-6 medium-6 cell">
                 <p>
-                  <ul class="no-bullet">
-                    <li>Genre</li>
-                    <li>description</li>
-                    <li>price</li>
-                    <li>availability</li>
-                    <li>URL to Best Buy</li>
+                  <ul class="no-bullet" id="btn-list-1">
                   </ul>
                 </p>
               </div>
               <div class="card-section large-6 medium-6 cell">
                 <p>
-                  <ul class="no-bullet">
-                    <li>Genre</li>
-                    <li>description</li>
-                    <li>price</li>
-                    <li>availability</li>
-                    <li>URL to Best Buy</li>
-                  </ul>
+                  <ul class="no-bullet" id="btn-list-2"></ul>
                 </p>
               </div>
             </div>
@@ -133,57 +117,19 @@
           <div class="card-divider text-white">
             <p>Recent searches </p> 
           </div>
-          <!--Image of game-->
           <div class="grid-x grid-padding-x">
-            <div class="card-section large-4 medium-6 cell">
-              <p>
                 <ul class="no-bullet">
-                  <li>Genre</li>
-                  <li>description</li>
-                  <li>price</li>
-                  <li>availability</li>
-                  <li>URL to Best Buy</li>
+                  <div id="prev-search" class="list-group"></div>
                 </ul>
-              </p>
-            </div>
-            <div class="card-section large-4 medium-6 cell">
-              <p>
-                <ul class="no-bullet">
-                  <li>Genre</li>
-                  <li>description</li>
-                  <li>price</li>
-                  <li>availability</li>
-                  <li>URL to Best Buy</li>
-                </ul>
-              </p>
-            </div>
-            <div class="card-section large-4 medium-6 cell">
-              <p>
-                <ul class="no-bullet">
-                  <li>Genre</li>
-                  <li>description</li>
-                  <li>price</li>
-                  <li>availability</li>
-                  <li>URL to Best Buy</li>
-                </ul>
-              </p>
-            </div>
           </div>
         </div>
           <!--Recent Searches End-->
       
-  
-  
-  
-   
 
 
-
-      <script src=""></script>
       <script src="./assets/js/vendor/jquery.js"></script>
       <script src="./assets/js/vendor/foundation.js"></script>
       <script src="./assets/js/app.js"></script>
-        <!-- Compressed JavaScript -->
-  <script src="https://cdn.jsdelivr.net/npm/foundation-sites@6.7.5/dist/js/foundation.min.js" crossorigin="anonymous"></script>
+      <script src="./assets/js/script.js"></script>
 </body>
 </html>
