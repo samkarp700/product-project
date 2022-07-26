@@ -4,6 +4,8 @@
 //var rawgDataObj = //rawg api
 //var bestBuyDataObj = //best buy api
 var submitButtonEl = document.querySelector("#input-group-button");
+var btnList1El = document.getElementById("btn-list-1");
+var btnList2El = document.getElementById("btn-list-2");
 var rawgKey = "c43811ca668944d58cb70bb7abcca226";
 var rawgObjArr = [];
 arrIndex = 0;
@@ -33,7 +35,7 @@ var getUserData = function() {
 var getApiData = function() {
     //format the api url 
     var gameApi = "https://api.rawg.io/api/games?search=super+mario+64&key=" + rawgKey;
-    arrIndex = 1;
+    arrIndex = 0;
 
     //make a request to URL
     fetch (gameApi).then(function(response) {
@@ -42,13 +44,14 @@ var getApiData = function() {
         if (response.ok) {
             response.json().then(function(data) {
                 console.log(data);
-                for(var i = 0; i < 6; i++) {
+                for(var i = 0; i < 5; i++) {
                     console.log(data.results[i]);
                     if(data.results[i]) {
                         rawgObjArr[i] = data.results[i];
                     }
                 }
                 mainGameDisplay();
+                displayOtherGames();
             }); 
         }
         else {
@@ -121,6 +124,44 @@ var mainGameSystem = function() {
     }
 
     gameSystemContainer.textContent = systemStr;
+};
+
+var displayOtherGames = function() {
+    
+
+    for (var i = 1; i < rawgObjArr.length; i++) {
+        var gameBtn = document.createElement("button");
+        gameBtn.textContent = rawgObjArr[i].name;
+        gameBtn.setAttribute("type", "button");
+        gameBtn.setAttribute("data-index", i);
+        gameBtn.className = "button";
+
+        if (i % 2 === 1) {
+            btnList1El.appendChild(gameBtn);
+        }
+        else {
+            btnList2El.appendChild(gameBtn);
+        }
+    }
+};
+
+//adds the data of the game tied to the button to the main game area and updates the button to correspond to the original game
+var switchGameData = function(event) {
+    if(event.target.classList.contains("button")) {
+        var targetBtn = event.target;
+
+        var temp = targetBtn.getAttribute("data-index");
+        targetBtn.setAttribute("data-index", arrIndex);
+        arrIndex = temp;
+
+        mainGameDisplay();
+        updateButton(targetBtn);
+    }
+};
+
+var updateButton = function(targetBtn) {
+    var index = targetBtn.getAttribute("data-index");
+    targetBtn.textContent = rawgObjArr[index].name;
 }
 
 //saves search data to local storage
@@ -147,3 +188,5 @@ loadHistory();
 
 getApiData();
 // submitButtonEl.addEventListener("submit", getUserData);
+btnList1El.addEventListener("click", switchGameData);
+btnList2El.addEventListener("click", switchGameData);
