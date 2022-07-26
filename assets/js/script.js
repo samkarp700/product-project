@@ -9,7 +9,7 @@ var btnList1El = document.getElementById("btn-list-1");
 var btnList2El = document.getElementById("btn-list-2");
 var rawgKey = "c43811ca668944d58cb70bb7abcca226";
 var rawgObjArr = [];
-arrIndex = 0;
+var arrIndex = 0;
 
    
 
