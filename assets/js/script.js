@@ -6,16 +6,17 @@
 var submitButtonEl = document.querySelector("#input-group-button");
 var rawgKey = "c43811ca668944d58cb70bb7abcca226";
 var rawgObjArr = [];
+arrIndex = 0;
 
 
 
 //Search Function
-submitButtonEl.addEventListener("click", function(event) {
+/* submitButtonEl.addEventListener("click", function(event) {
     event.preventDefault();
     console.log("button clicked!");
     getUserData();
     
-});
+});*/
     
 
 var getUserData = function() {
@@ -32,6 +33,7 @@ var getUserData = function() {
 var getApiData = function() {
     //format the api url 
     var gameApi = "https://api.rawg.io/api/games?search=super+mario+64&key=" + rawgKey;
+    arrIndex = 1;
 
     //make a request to URL
     fetch (gameApi).then(function(response) {
@@ -46,7 +48,7 @@ var getApiData = function() {
                         rawgObjArr[i] = data.results[i];
                     }
                 }
-                // displayResults(data);
+                mainGameDisplay();
             }); 
         }
         else {
@@ -67,38 +69,80 @@ var getBestBuyData = function() {
     fetch (bestApi).then(function(response) {
     //request successful
     if (response.ok) {
-    response.json().then(function(data) {
-    displayPrice(data);
-    });
-    }
-     else {
-                // display list item element saying "not available"
-            }
-        })
-        .catch(function(error) {
-            //throw 404 page
+        response.json().then(function(data) {
+            displayPrice(data);
         });
     }
+    else {
+                // display list item element saying "not available"
+        }
+    })
+    .catch(function(error) {
+        //throw 404 page
+    });
+}
 
-    //saves search data to local storage
-    var saveSearch = function() {
-        var gameName = document.getElementById("gamesrch").value;
-        localStorage.setItem("search", JSON.stringify(gameName)); 
+var mainGameDisplay = function() {
+    mainGameName();
+    mainGameGenre();
+    mainGameSystem();
+};
 
+var mainGameName = function() {
+    var gameNameContainer = document.getElementById("result-name");
+    gameNameContainer.textContent = rawgObjArr[arrIndex].name;
+};
+
+var mainGameGenre = function() {
+    var gameGenreContainer = document.getElementById("result-genre");
+    var genreStr = "";
+
+    for (var i = 0; i < rawgObjArr[arrIndex].genres.length; i++) {
+        genreStr += rawgObjArr[arrIndex].genres[i].name;
+
+        if(i != rawgObjArr[arrIndex].genres.length - 1) {
+            genreStr += "/";
+        }
     }
 
-    var loadHistory = function() {
-        //get search history from localStorage
-        var loadGame = document.getElementById("gamesrch").value;
-        window.localStorage.getItem('loadGame');
-        JSON.parse(window.localStorage.getItem(loadGame));
-        //display value in container - max 3 previous searches
-        console.log(loadGame);
-        var prevSearchEl = document.getElementById("prev-search");
+    gameGenreContainer.textContent = genreStr;
+}
+
+var mainGameSystem = function() {
+    var gameSystemContainer = document.getElementById("result-sys");
+    var systemStr = "";
+
+    for (var i = 0; i < rawgObjArr[arrIndex].platforms.length; i++) {
+        systemStr += rawgObjArr[arrIndex].platforms[i].platform.name;
+
+        if(i != rawgObjArr[arrIndex].platforms.length - 1) {
+            systemStr += "/";
+        }
+    }
+
+    gameSystemContainer.textContent = systemStr;
+}
+
+//saves search data to local storage
+var saveSearch = function() {
+    var gameName = document.getElementById("gamesrch").value;
+    localStorage.setItem("search", JSON.stringify(gameName)); 
+
+}
+
+var loadHistory = function() {
+    //get search history from localStorage
+    var loadGame = document.getElementById("gamesrch").value;
+    window.localStorage.getItem('loadGame');
+    JSON.parse(window.localStorage.getItem(loadGame));
+    //display value in container - max 3 previous searches
+    console.log(loadGame);
+    var prevSearchEl = document.getElementById("prev-search");
         
 
-    };
-    loadHistory();
+};
+
+loadHistory();
    
 
 getApiData();
