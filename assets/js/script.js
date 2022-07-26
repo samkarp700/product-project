@@ -3,38 +3,36 @@
 // var textFormEl = document.getElementById("gamesrch").value;
 //var rawgDataObj = //rawg api
 //var bestBuyDataObj = //best buy api
-var submitButtonEl = document.querySelector("#input-group-button");
+var submitButtonEl = document.getElementById("search");
+var submitInputEl = document.getElementById("gamesrch");
 var btnList1El = document.getElementById("btn-list-1");
 var btnList2El = document.getElementById("btn-list-2");
 var rawgKey = "c43811ca668944d58cb70bb7abcca226";
 var rawgObjArr = [];
 arrIndex = 0;
 
-
-
-//Search Function
-/* submitButtonEl.addEventListener("click", function(event) {
-    event.preventDefault();
-    console.log("button clicked!");
-    getUserData();
-    
-});*/
-    
+   
 
 var getUserData = function() {
-    //gathers data entered into textFormEl
-  var gameSearchData = document.getElementById("gamesrch").value;
-  console.log(gameSearchData);
-  saveSearch();
-  //reset form fields for next task to be entered
-  document.getElementById("gamesrch").value="";
+    if(document.getElementById("gamesrch").value) {
+        //gathers data entered into textFormEl
+        var gameSearchData = document.getElementById("gamesrch").value;
+        console.log(gameSearchData);
+        saveSearch();
+        //reset form fields for next task to be entered
+        document.getElementById("gamesrch").value="";
+        removeChildren();
+
+        gameSearchData = gameSearchData.replaceAll(" ", "+");
+        getApiData(gameSearchData);
+    }
 };
 
 //api data call 
 
-var getApiData = function() {
+var getApiData = function(gameSearchData) {
     //format the api url 
-    var gameApi = "https://api.rawg.io/api/games?search=super+mario+64&key=" + rawgKey;
+    var gameApi = "https://api.rawg.io/api/games?search=" + gameSearchData + "&key=" + rawgKey;
     arrIndex = 0;
 
     //make a request to URL
@@ -162,14 +160,14 @@ var switchGameData = function(event) {
 var updateButton = function(targetBtn) {
     var index = targetBtn.getAttribute("data-index");
     targetBtn.textContent = rawgObjArr[index].name;
-}
+};
 
 //saves search data to local storage
 var saveSearch = function() {
     var gameName = document.getElementById("gamesrch").value;
     localStorage.setItem("search", JSON.stringify(gameName)); 
 
-}
+};
 
 var loadHistory = function() {
     //get search history from localStorage
@@ -183,10 +181,19 @@ var loadHistory = function() {
 
 };
 
+var removeChildren = function() {
+    while(btnList1El.firstChild) {
+        btnList1El.removeChild(btnList1El.firstChild);
+    }
+
+    while(btnList2El.firstChild) {
+        btnList2El.removeChild(btnList2El.firstChild);
+    }
+};
+
 loadHistory();
    
 
-getApiData();
-// submitButtonEl.addEventListener("submit", getUserData);
+submitButtonEl.addEventListener("click", getUserData);
 btnList1El.addEventListener("click", switchGameData);
 btnList2El.addEventListener("click", switchGameData);
