@@ -42,13 +42,14 @@ var getApiData = function() {
         if (response.ok) {
             response.json().then(function(data) {
                 console.log(data);
-                for(var i = 0; i < 6; i++) {
+                for(var i = 0; i < 5; i++) {
                     console.log(data.results[i]);
                     if(data.results[i]) {
                         rawgObjArr[i] = data.results[i];
                     }
                 }
                 mainGameDisplay();
+                displayOtherGames();
             }); 
         }
         else {
@@ -121,7 +122,26 @@ var mainGameSystem = function() {
     }
 
     gameSystemContainer.textContent = systemStr;
-}
+};
+
+var displayOtherGames = function() {
+    var btnList1 = document.getElementById("btn-list-1");
+    var btnList2 = document.getElementById("btn-list-2");
+
+    for (var i = 1; i < rawgObjArr.length; i++) {
+        var gameBtn = document.createElement("button");
+        gameBtn.textContent = rawgObjArr[i].name;
+        gameBtn.setAttribute("type", "button");
+        gameBtn.className = "button";
+
+        if (i % 2 === 1) {
+            btnList1.appendChild(gameBtn);
+        }
+        else {
+            btnList2.appendChild(gameBtn);
+        }
+    }
+};
 
 //saves search data to local storage
 var saveSearch = function() {
