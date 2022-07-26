@@ -1,11 +1,16 @@
-.logo {
-    width: 40vw;
-    height: 15vh;
-    margin-bottom: 20px;
 
-}
 
 body {
-    background-color: #0c3d5d;
+    background-color: #8897a1;
 }
+
+.card-margin {
+    margin: 50px 200px 50px 200px;
+    
+}
+
+.text-white {
+    color: white;
+}
+
 
