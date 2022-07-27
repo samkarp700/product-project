@@ -1,40 +1,47 @@
 //variables
 
-// var textFormEl = document.getElementById("gamesrch").value;
-//var rawgDataObj = //rawg api
-//var bestBuyDataObj = //best buy api
-var submitButtonEl = document.querySelector("#input-group-button");
+var submitButtonEl = document.getElementById("search");
+var submitInputEl = document.getElementById("gamesrch");
 var btnList1El = document.getElementById("btn-list-1");
 var btnList2El = document.getElementById("btn-list-2");
+var prevSearchEl = document.getElementById("prev-search");
 var rawgKey = "c43811ca668944d58cb70bb7abcca226";
+var giantBombkey = "3496224df3ed2783377ca6cbf00daeb3fb6b7b69";
 var rawgObjArr = [];
-arrIndex = 0;
+var arrIndex = 0;
+var searchHistory = [];
 
-
-
-//Search Function
-/* submitButtonEl.addEventListener("click", function(event) {
-    event.preventDefault();
-    console.log("button clicked!");
-    getUserData();
-    
-});*/
-    
+   
 
 var getUserData = function() {
-    //gathers data entered into textFormEl
-  var gameSearchData = document.getElementById("gamesrch").value;
-  console.log(gameSearchData);
-  saveSearch();
-  //reset form fields for next task to be entered
-  document.getElementById("gamesrch").value="";
+    if(document.getElementById("gamesrch").value) {
+        //gathers data entered into textFormEl
+        var gameSearchData = document.getElementById("gamesrch").value;
+        console.log(gameSearchData);
+        saveSearch();
+        //reset form fields for next task to be entered
+        document.getElementById("gamesrch").value="";
+        removeChildren();
+
+        //format the search to work with the api url
+        gameSearchData = gameSearchData.replaceAll(" ", "+");
+        getApiData(gameSearchData);
+    }
+};
+
+var getBtnData = function(event) {
+    var gameSearchData = event.target.textContent;
+    removeChildren();
+
+    //format the search to work with the api url
+    gameSearchData = gameSearchData.replaceAll(" ", "+");
+    getApiData(gameSearchData);
 };
 
 //api data call 
-
-var getApiData = function() {
+var getApiData = function(gameSearchData) {
     //format the api url 
-    var gameApi = "https://api.rawg.io/api/games?search=super+mario+64&key=" + rawgKey;
+    var gameApi = "https://api.rawg.io/api/games?search=" + gameSearchData + "&key=" + rawgKey;
     arrIndex = 0;
 
     //make a request to URL
@@ -55,36 +62,17 @@ var getApiData = function() {
             }); 
         }
         else {
-            //possibly pull "similar games or related games from api"
+            var gameNameContainer = document.getElementById("result-name");
+            gameNameContainer.textContent = "Nothing found";
         }
     })
     .catch(function(error) {
-        //throw 404 page 
+        var gameNameContainer = document.getElementById("result-name");
+        gameNameContainer.textContent = "Couldn't reach RAWG servers";
     });
-}
+};
 
-//best buy data call 
-var getBestBuyData = function() {
-    //format api url
-    var bestApi = "#";
-
-    //make a request to the url
-    fetch (bestApi).then(function(response) {
-    //request successful
-    if (response.ok) {
-        response.json().then(function(data) {
-            displayPrice(data);
-        });
-    }
-    else {
-                // display list item element saying "not available"
-        }
-    })
-    .catch(function(error) {
-        //throw 404 page
-    });
-}
-
+//displays the name genre and system of the game currently set to the main index
 var mainGameDisplay = function() {
     mainGameName();
     mainGameGenre();
@@ -109,7 +97,7 @@ var mainGameGenre = function() {
     }
 
     gameGenreContainer.textContent = genreStr;
-}
+};
 
 var mainGameSystem = function() {
     var gameSystemContainer = document.getElementById("result-sys");
@@ -126,6 +114,8 @@ var mainGameSystem = function() {
     gameSystemContainer.textContent = systemStr;
 };
 
+
+//creates the buttons to select other games
 var displayOtherGames = function() {
     
 
@@ -159,34 +149,57 @@ var switchGameData = function(event) {
     }
 };
 
+//updates the name of the button used
 var updateButton = function(targetBtn) {
     var index = targetBtn.getAttribute("data-index");
     targetBtn.textContent = rawgObjArr[index].name;
-}
+};
 
 //saves search data to local storage
 var saveSearch = function() {
-    var gameName = document.getElementById("gamesrch").value;
-    localStorage.setItem("search", JSON.stringify(gameName)); 
+    if(searchHistory.length >= 3) {
+        searchHistory.shift();
+    }
 
-}
+    searchHistory.push(document.getElementById("gamesrch").value);
+    localStorage.setItem("search", JSON.stringify(searchHistory)); 
+
+};
 
 var loadHistory = function() {
     //get search history from localStorage
-    var loadGame = document.getElementById("gamesrch").value;
-    window.localStorage.getItem('loadGame');
-    JSON.parse(window.localStorage.getItem(loadGame));
+    searchHistory = JSON.parse(localStorage.getItem("search"));
+    while(searchHistory.length > 3) {
+        searchHistory.shift();
+    }
     //display value in container - max 3 previous searches
-    console.log(loadGame);
-    var prevSearchEl = document.getElementById("prev-search");
-        
+    console.log(searchHistory);
+    
+    for(var i = 0; i < searchHistory.length; i++) {
+        historyBtn = document.createElement("button");
+        historyBtn.textContent = searchHistory[i];
+        historyBtn.setAttribute("type", "button");
+        historyBtn.className = "button history-btn";
 
+        prevSearchEl.append(historyBtn);
+    }
+
+};
+
+//removes all children of the button lists
+var removeChildren = function() {
+    while(btnList1El.firstChild) {
+        btnList1El.removeChild(btnList1El.firstChild);
+    }
+
+    while(btnList2El.firstChild) {
+        btnList2El.removeChild(btnList2El.firstChild);
+    }
 };
 
 loadHistory();
    
-
-getApiData();
-// submitButtonEl.addEventListener("submit", getUserData);
+submitButtonEl.addEventListener("click", getUserData);
 btnList1El.addEventListener("click", switchGameData);
 btnList2El.addEventListener("click", switchGameData);
+prevSearchEl.addEventListener("click", getBtnData);
