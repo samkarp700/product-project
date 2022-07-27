@@ -9,6 +9,7 @@ var btnList1El = document.getElementById("btn-list-1");
 var btnList2El = document.getElementById("btn-list-2");
 var prevSearchEl = document.getElementById("prev-search");
 var rawgKey = "c43811ca668944d58cb70bb7abcca226";
+var giantBombkey = "3496224df3ed2783377ca6cbf00daeb3fb6b7b69";
 var rawgObjArr = [];
 var arrIndex = 0;
 var searchHistory = [];
@@ -27,6 +28,8 @@ var getUserData = function() {
 
         gameSearchData = gameSearchData.replaceAll(" ", "+");
         getApiData(gameSearchData);
+
+        getGiantBombData(gameSearchData);
     }
 };
 
@@ -36,6 +39,8 @@ var getBtnData = function(event) {
 
     gameSearchData = gameSearchData.replaceAll(" ", "+");
     getApiData(gameSearchData);
+
+    getGiantBombData(gameSearchData);
 };
 
 //api data call 
@@ -71,17 +76,17 @@ var getApiData = function(gameSearchData) {
     });
 }
 
-//best buy data call 
-var getBestBuyData = function() {
+//giant bomb data call 
+var getGiantBombData = function(gameSearchData) {
     //format api url
-    var bestApi = "#";
+    var giantApi = " https://www.giantbomb.com/api/games/?api_key=" + giantBombkey;
 
     //make a request to the url
-    fetch (bestApi).then(function(response) {
+    fetch (giantApi).then(function(response) {
     //request successful
     if (response.ok) {
         response.json().then(function(data) {
-            displayPrice(data);
+            console.log(data);
         });
     }
     else {
@@ -174,7 +179,7 @@ var updateButton = function(targetBtn) {
 
 //saves search data to local storage
 var saveSearch = function() {
-    if(searchHistory.length > 3) {
+    if(searchHistory.length >= 3) {
         searchHistory.shift();
     }
 
@@ -186,6 +191,9 @@ var saveSearch = function() {
 var loadHistory = function() {
     //get search history from localStorage
     searchHistory = JSON.parse(localStorage.getItem("search"));
+    while(searchHistory.length > 3) {
+        searchHistory.shift();
+    }
     //display value in container - max 3 previous searches
     console.log(searchHistory);
     
