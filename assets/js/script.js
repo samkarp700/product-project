@@ -7,9 +7,11 @@ var submitButtonEl = document.getElementById("search");
 var submitInputEl = document.getElementById("gamesrch");
 var btnList1El = document.getElementById("btn-list-1");
 var btnList2El = document.getElementById("btn-list-2");
+var prevSearchEl = document.getElementById("prev-search");
 var rawgKey = "c43811ca668944d58cb70bb7abcca226";
 var rawgObjArr = [];
 var arrIndex = 0;
+var searchHistory = [];
 
    
 
@@ -26,6 +28,14 @@ var getUserData = function() {
         gameSearchData = gameSearchData.replaceAll(" ", "+");
         getApiData(gameSearchData);
     }
+};
+
+var getBtnData = function(event) {
+    var gameSearchData = event.target.textContent;
+    removeChildren();
+
+    gameSearchData = gameSearchData.replaceAll(" ", "+");
+    getApiData(gameSearchData);
 };
 
 //api data call 
@@ -164,20 +174,29 @@ var updateButton = function(targetBtn) {
 
 //saves search data to local storage
 var saveSearch = function() {
-    var gameName = document.getElementById("gamesrch").value;
-    localStorage.setItem("search", JSON.stringify(gameName)); 
+    if(searchHistory.length > 3) {
+        searchHistory.shift();
+    }
+
+    searchHistory.push(document.getElementById("gamesrch").value);
+    localStorage.setItem("search", JSON.stringify(searchHistory)); 
 
 };
 
 var loadHistory = function() {
     //get search history from localStorage
-    var loadGame = document.getElementById("gamesrch").value;
-    window.localStorage.getItem('loadGame');
-    JSON.parse(window.localStorage.getItem(loadGame));
+    searchHistory = JSON.parse(localStorage.getItem("search"));
     //display value in container - max 3 previous searches
-    console.log(loadGame);
-    var prevSearchEl = document.getElementById("prev-search");
-        
+    console.log(searchHistory);
+    
+    for(var i = 0; i < searchHistory.length; i++) {
+        historyBtn = document.createElement("button");
+        historyBtn.textContent = searchHistory[i];
+        historyBtn.setAttribute("type", "button");
+        historyBtn.className = "button history-btn";
+
+        prevSearchEl.append(historyBtn);
+    }
 
 };
 
@@ -197,3 +216,4 @@ loadHistory();
 submitButtonEl.addEventListener("click", getUserData);
 btnList1El.addEventListener("click", switchGameData);
 btnList2El.addEventListener("click", switchGameData);
+prevSearchEl.addEventListener("click", getBtnData);
