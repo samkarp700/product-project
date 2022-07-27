@@ -26,9 +26,6 @@
           <div class="top-bar-left">
             <ul class="dropdown menu" data-dropdown-menu>
               <li class="menu-text">Your Next Game </li>
-              <li><a href="#">Home</a></li>
-              <li><a href="#">SUBSECTION 1</a></li>
-              <li><a href="#">SUBSECTION 2</a></li>
             </ul>
         </div>
           </div>
@@ -41,7 +38,7 @@
     <div class="hero-section">
         <div class="hero-section-text">
           <h1>Your Next Game</h1>
-          <h5>Search for your next game! Find prices and availability for quick and easy ordering.<h5>
+          <h5>Search for your next game! Find reviews, ratings, and suggested games!<h5>
         </div>
       </div>
     
@@ -49,7 +46,7 @@
     <!--hero section end  -->
 
 
-  
+  ˜
 
 
 
@@ -60,7 +57,7 @@
           <div class="large-6 cell">
             <label>Game Search</label>
             <input type="text" id="gamesrch" name="game-search" placeholder="What are you playing next?" />
-            <button class="secondary button" id="search">Search</button>
+            <button type="button" class="secondary button" id="search">Search</button>
           </div>
         </div>
       </form>
@@ -70,18 +67,15 @@
 
       <!--Results Container Start-->
         <div class="card card-margin">
-          <div class="card-divider text-white align-center">
+          <div class="card-divider text-white align-center" id="result-name">
             Video Game Name / result
           </div>
           <!--Image of game-->
           <div class="card-section">
            <p>
-            <ul class="no-bullet text-center">
-              <li class="result-genre">Genre</li>
-            <li class="result-des">description</li>
-            <li class="result-price">price</li>
-            <li class="result-avail">availability</li>
-            <li class="result-url">URL to Best Buy</li>
+            <ul id="no-bullet text-center">
+            <li id="result-genre">Genre</li>
+            <li id="result-sys">System(s)</li>
             </ul>
           </p>
           </div>
@@ -93,30 +87,19 @@
         <!--Similar games Container Start-->
           <div class="card card-margin">
             <div class="card-divider text-white">
-              <p>You may also like: </p> 
+              <p>Other Results: </p> 
             </div>
             <!--Image of game-->
             <div class="grid-x grid-padding-x">
-              <div class="card-section large-6 medium-6 cell">
+              <div class="row align-center card-section large-3 medium-3 cell">
                 <p>
-                  <ul class="no-bullet">
-                    <li class="sim-genre">Genre</li>
-                    <li class="sim-des">description</li>
-                    <li class="sim-price">price</li>
-                    <li class="sim-avail">availability</li>
-                    <li class="sim-url">URL to Best Buy</li>
+                  <ul class="no-bullet" id="btn-list-1">
                   </ul>
                 </p>
               </div>
-              <div class="card-section large-6 medium-6 cell">
+              <div class="row card-section large-3 medium-3 cell align-center">
                 <p>
-                  <ul class="no-bullet">
-                    <li class="sim-genre">Genre</li>
-                    <li class="sim-des">description</li>
-                    <li class="sim-price">price</li>
-                    <li class="sim-avail">availability</li>
-                    <li class="sim-url">URL to Best Buy</li>
-                  </ul>
+                  <ul class="no-bullet" id="btn-list-2"></ul>
                 </p>
               </div>
             </div>
