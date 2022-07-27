@@ -1,8 +1,5 @@
 //variables
 
-// var textFormEl = document.getElementById("gamesrch").value;
-//var rawgDataObj = //rawg api
-//var bestBuyDataObj = //best buy api
 var submitButtonEl = document.getElementById("search");
 var submitInputEl = document.getElementById("gamesrch");
 var btnList1El = document.getElementById("btn-list-1");
@@ -26,10 +23,9 @@ var getUserData = function() {
         document.getElementById("gamesrch").value="";
         removeChildren();
 
+        //format the search to work with the api url
         gameSearchData = gameSearchData.replaceAll(" ", "+");
         getApiData(gameSearchData);
-
-        getGiantBombData(gameSearchData);
     }
 };
 
@@ -37,14 +33,12 @@ var getBtnData = function(event) {
     var gameSearchData = event.target.textContent;
     removeChildren();
 
+    //format the search to work with the api url
     gameSearchData = gameSearchData.replaceAll(" ", "+");
     getApiData(gameSearchData);
-
-    getGiantBombData(gameSearchData);
 };
 
 //api data call 
-
 var getApiData = function(gameSearchData) {
     //format the api url 
     var gameApi = "https://api.rawg.io/api/games?search=" + gameSearchData + "&key=" + rawgKey;
@@ -68,36 +62,17 @@ var getApiData = function(gameSearchData) {
             }); 
         }
         else {
-            //possibly pull "similar games or related games from api"
+            var gameNameContainer = document.getElementById("result-name");
+            gameNameContainer.textContent = "Nothing found";
         }
     })
     .catch(function(error) {
-        //throw 404 page 
+        var gameNameContainer = document.getElementById("result-name");
+        gameNameContainer.textContent = "Couldn't reach RAWG servers";
     });
-}
+};
 
-//giant bomb data call 
-var getGiantBombData = function(gameSearchData) {
-    //format api url
-    var giantApi = " https://www.giantbomb.com/api/games/?api_key=" + giantBombkey;
-
-    //make a request to the url
-    fetch (giantApi).then(function(response) {
-    //request successful
-    if (response.ok) {
-        response.json().then(function(data) {
-            console.log(data);
-        });
-    }
-    else {
-                // display list item element saying "not available"
-        }
-    })
-    .catch(function(error) {
-        //throw 404 page
-    });
-}
-
+//displays the name genre and system of the game currently set to the main index
 var mainGameDisplay = function() {
     mainGameName();
     mainGameGenre();
@@ -122,7 +97,7 @@ var mainGameGenre = function() {
     }
 
     gameGenreContainer.textContent = genreStr;
-}
+};
 
 var mainGameSystem = function() {
     var gameSystemContainer = document.getElementById("result-sys");
@@ -139,6 +114,8 @@ var mainGameSystem = function() {
     gameSystemContainer.textContent = systemStr;
 };
 
+
+//creates the buttons to select other games
 var displayOtherGames = function() {
     
 
@@ -172,6 +149,7 @@ var switchGameData = function(event) {
     }
 };
 
+//updates the name of the button used
 var updateButton = function(targetBtn) {
     var index = targetBtn.getAttribute("data-index");
     targetBtn.textContent = rawgObjArr[index].name;
@@ -208,6 +186,7 @@ var loadHistory = function() {
 
 };
 
+//removes all children of the button lists
 var removeChildren = function() {
     while(btnList1El.firstChild) {
         btnList1El.removeChild(btnList1El.firstChild);
@@ -220,7 +199,6 @@ var removeChildren = function() {
 
 loadHistory();
    
-
 submitButtonEl.addEventListener("click", getUserData);
 btnList1El.addEventListener("click", switchGameData);
 btnList2El.addEventListener("click", switchGameData);
