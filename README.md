@@ -1,6 +1,7 @@
-# product-project
+# Your next Game
 
-📖Group Project 1
+📖Your Next Game by The Soaring Eagles: 
+Rikayla Johnson, Jacob Brister, Samantha Karpovck
 Implemented the following user story:
 
 
