@@ -77,6 +77,9 @@ var mainGameDisplay = function() {
     mainGameName();
     mainGameGenre();
     mainGameSystem();
+    mainGameESRB();
+    mainGameScore();
+    mainGameReleaseDate();
 };
 
 var mainGameName = function() {
@@ -112,6 +115,26 @@ var mainGameSystem = function() {
     }
 
     gameSystemContainer.textContent = systemStr;
+};
+
+var mainGameESRB = function() {
+    var gameEsrbContainer = document.getElementById("result-age-rate");
+    if(rawgObjArr[arrIndex].esrb_rating) {
+        gameEsrbContainer.textContent = rawgObjArr[arrIndex].esrb_rating.name;
+    }
+    else {
+        gameEsrbContainer.textContent = "Not Rated";
+    }
+};
+
+var mainGameScore = function() {
+    var gameScoreContainer = document.getElementById("result-score");
+    gameScoreContainer.textContent = rawgObjArr[arrIndex].rating + "/5";
+};
+
+var mainGameReleaseDate = function() {
+    var gameReleaseDateContainer = document.getElementById("result-release-date");
+    gameReleaseDateContainer.textContent = rawgObjArr[arrIndex].released;
 };
 
 
@@ -172,7 +195,6 @@ var loadHistory = function() {
     if(!searchHistory) {
         searchHistory = [];
     }
-    
     while(searchHistory.length > 3) {
         searchHistory.shift();
     }
