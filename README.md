@@ -1,4 +1,4 @@
-# Your next Game
+# Your Next Game
 
 📖Your Next Game by The Soaring Eagles: 
 Rikayla Johnson, Jacob Brister, Samantha Karpovck
