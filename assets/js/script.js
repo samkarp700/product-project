@@ -169,6 +169,10 @@ var saveSearch = function() {
 var loadHistory = function() {
     //get search history from localStorage
     searchHistory = JSON.parse(localStorage.getItem("search"));
+    if(!searchHistory) {
+        searchHistory = [];
+    }
+    
     while(searchHistory.length > 3) {
         searchHistory.shift();
     }
