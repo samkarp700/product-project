@@ -44,12 +44,11 @@ THEN I am presented with games that I may also be interested in
 
 You have a search bar to enter the name of a game. When you search for a game you are presented with your search result which includes (game name, genre, description, ratings, and reviews.). You also have up to four suggested games that you may also like. If you click on a suggested game you are shown the information for that game. 
 
-![Gamer](./assets/Capture.PNG)
 
 You have a search bar to enter the name of a game. You are presented with Your search result which includes (game name, genre, description and rating). You also have two suggested games that you may also like.
 
 ## Assets
 
-The URL is: https://samkarp700.github.io/product-project/
+The URL is: https://samkarp700.github.io/your-next-game/
 
-Repository located at: https://github.com/samkarp700/product-project
+Repository located at: https://github.com/samkarp700/your-next-game
